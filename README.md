@@ -208,7 +208,7 @@ svc.can_pause(service)
 svc.can_stop(service)
 
 # set startup type: if manual=True -> change to manual else automatic
-svc.set_startup(service, manual=True)
+svc.set_startup(service, option="manual") # allowed: "auto" and "disable"
 ```
 
 ### tsch
