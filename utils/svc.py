@@ -95,11 +95,13 @@ def can_stop(service) -> bool:
     return as_dict(service)['can_stop']
 
 
-def set_startup(service, manual=True) -> bool:
+def set_startup(service, option="manual") -> bool:
     """Change service startup type"""
-    if manual:
+    if option == "manual":
         type_ = "Manual"
-    else:
+    if option == "auto":
         type_ = "Automatic"
+    if option == "disable":
+        type_ = "Disable"
 
-    return __sys_exec(f"powershell Set-Service -Name {service} StartupType {type_}") == 0
+    return __sys_exec(f"powershell Set-Service -Name {service} -StartupType {type_}") == 0
