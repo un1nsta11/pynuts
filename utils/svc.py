@@ -3,7 +3,7 @@
 # Dependencies: psutil
 # ======================================================================================================================
 from subprocess import PIPE, Popen, TimeoutExpired, STDOUT
-
+import os
 
 __all__ = [
     "as_dict", "stop_service", "service_up", "can_shutdown", "can_pause", "can_stop", "set_startup"
@@ -92,7 +92,10 @@ def can_pause(service) -> bool:
 
 def can_stop(service) -> bool:
     """Get property for a service: CanStop"""
-    return as_dict(service)['can_stop']
+    if os.name == 'nt':
+        return as_dict(service)['can_stop']
+    else:
+        return "active" in __ps_exec(f"systemctl is-active {service}.service")
 
 
 def set_startup(service, option="manual") -> bool:
